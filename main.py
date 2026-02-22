@@ -2,7 +2,8 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Tic Tac Toe")
-root.geometry("300x350")
+root.geometry("320x400")
+root.configure(bg="#1e1e1e")
 
 current_player = "X"
 buttons = []
@@ -23,23 +24,41 @@ def on_click(row, col):
     global current_player
     if buttons[row][col]["text"] == "":
         buttons[row][col]["text"] = current_player
+        buttons[row][col].config(
+            fg="#00e676" if current_player == "X" else "#ff5252"
+        )
         if check_winner():
-            label.config(text=f"Ganó {current_player}")
+            label.config(text=f"Ganó {current_player}", fg="#ffd600")
         else:
             current_player = "O" if current_player == "X" else "X"
+            label.config(text=f"Turno: {current_player}")
 
-label = tk.Label(root, text="Turno: X")
-label.pack()
+label = tk.Label(
+    root,
+    text="Turno: X",
+    font=("Arial", 18, "bold"),
+    bg="#1e1e1e",
+    fg="white"
+)
+label.pack(pady=15)
 
-frame = tk.Frame(root)
+frame = tk.Frame(root, bg="#1e1e1e")
 frame.pack()
 
 for r in range(3):
     row = []
     for c in range(3):
-        btn = tk.Button(frame, text="", width=5, height=2,
-                        command=lambda r=r, c=c: on_click(r, c))
-        btn.grid(row=r, column=c)
+        btn = tk.Button(
+            frame,
+            text="",
+            width=6,
+            height=3,
+            font=("Arial", 20, "bold"),
+            bg="#2d2d2d",
+            fg="white",
+            command=lambda r=r, c=c: on_click(r, c)
+        )
+        btn.grid(row=r, column=c, padx=5, pady=5)
         row.append(btn)
     buttons.append(row)
 
