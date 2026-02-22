@@ -2,7 +2,7 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Tic Tac Toe")
-root.geometry("320x400")
+root.geometry("320x450")
 root.configure(bg="#1e1e1e")
 
 current_player = "X"
@@ -29,9 +29,23 @@ def on_click(row, col):
         )
         if check_winner():
             label.config(text=f"Ganó {current_player}", fg="#ffd600")
+            disable_buttons()
         else:
             current_player = "O" if current_player == "X" else "X"
             label.config(text=f"Turno: {current_player}")
+
+def disable_buttons():
+    for row in buttons:
+        for btn in row:
+            btn.config(state="disabled")
+
+def reset_game():
+    global current_player
+    current_player = "X"
+    label.config(text="Turno: X", fg="white")
+    for row in buttons:
+        for btn in row:
+            btn.config(text="", state="normal", fg="white")
 
 label = tk.Label(
     root,
@@ -61,5 +75,15 @@ for r in range(3):
         btn.grid(row=r, column=c, padx=5, pady=5)
         row.append(btn)
     buttons.append(row)
+
+reset_button = tk.Button(
+    root,
+    text="Reiniciar Juego",
+    font=("Arial", 14, "bold"),
+    bg="#1976d2",
+    fg="white",
+    command=reset_game
+)
+reset_button.pack(pady=20)
 
 root.mainloop()
